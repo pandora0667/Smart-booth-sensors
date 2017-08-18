@@ -166,3 +166,5 @@ Temporary Items
 .apdisk
 
 !/package-lock.json
+!/Booth/package-lock.json
+!/Kiosk/package-lock.json
