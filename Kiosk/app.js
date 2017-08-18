@@ -1,4 +1,5 @@
 const SerialPort = require('serialport');
+const net = require('net');
 const port = '/dev/ttyACM0';
 const Readline = SerialPort.parsers.Readline;
 
