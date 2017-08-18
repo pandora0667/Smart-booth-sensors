@@ -58,7 +58,7 @@ serialArduino.on('data', function (data) {
 });
 
 function getConnection(connName) {
-    let client = net.connect({port: 5001, host: 'localhost'}, function () {
+    let client = net.connect({port: 5001, host: '203.230.100.177'}, function () {
         console.log(connName + ' Connected: ');
         console.log('   local = %s:%s', this.localAddress, this.localPort);
         console.log('   remote = %s:%s', this.remoteAddress, this.remotePort);
