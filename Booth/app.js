@@ -51,14 +51,45 @@ serialArduino.on('data', function (data) {
             let re = /\0/g;
             let str = seSensingData.replace(re, "");
             let msg = JSON.parse(str);
-            boothSensor = {trash: msg.trash, smoke: msg.smoke, lat: latitude, lon: longitude};
+            boothSensor = {code: 'booth', trash: msg.trash, smoke: msg.smoke, lat: latitude, lon: longitude};
             JSON.stringify(boothSensor);
         }
     }
 });
 
+function getConnection(connName) {
+    let client = net.connect({port: 5001, host: 'localhost'}, function () {
+        console.log(connName + ' Connected: ');
+        console.log('   local = %s:%s', this.localAddress, this.localPort);
+        console.log('   remote = %s:%s', this.remoteAddress, this.remotePort);
+        this.setEncoding('utf8');
+
+        this.on('data', function (data) {
+            console.log(connName + ' From Server: ' + data);
+        });
+        this.on('end', function () {
+            console.log(connName + ' Client disconnected');
+        });
+        this.on('error', function (err) {
+            console.log('Socket Error: ', JSON.stringify(err));
+        });
+        this.on('timeout', function () {
+            console.log('Socket Timed Out');
+        });
+        this.on('close', function () {
+            console.log('Socket Closed');
+        });
+    });
+    return client;
+}
+
+function writeData(socket, data) {
+    socket.write(data);
+}
+const node1 = getConnection('node1');
+
 setInterval(function () {
     console.log(boothSensor);
-    console.log(boothSensor.lat);
+    writeData(boothSensor);
 }, 1000);
 
