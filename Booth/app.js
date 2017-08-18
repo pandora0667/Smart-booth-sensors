@@ -84,12 +84,12 @@ function getConnection(connName) {
 }
 
 function writeData(socket, data) {
-    socket.write(data);
+    socket.write(JSON.stringify(data));
 }
 const node1 = getConnection('node1');
 
 setInterval(function () {
     console.log(boothSensor);
-    writeData(boothSensor);
-}, 1000);
+    writeData(node1, boothSensor);
+}, 2000);
 
