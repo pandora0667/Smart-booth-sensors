@@ -1,6 +1,6 @@
 const SerialPort = require('serialport');
 const GPS = require('gps');
-const net = reauire('net');
+const net = require('net');
 const port1 = '/dev/ttyACM0';
 const port2 = '/dev/ttyACM1';
 const gps = new GPS;
@@ -24,7 +24,7 @@ serialGPS.on('data', function (data) {
     gps.update(data);
 });
 
-gps.on(, function () {
+gps.on('data', function (data) {
 
     if (gps.state.lat !== undefined && gps.state.lon !== undefined) {
         latitude = gps.state.lat.toString();
