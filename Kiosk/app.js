@@ -2,11 +2,11 @@ const SerialPort = require('serialport');
 const port = '/dev/ttyACM0';
 const Readline = SerialPort.parsers.Readline;
 
-const port = new SerialPort(port, {
+const portSpeed = new SerialPort(port, {
     baudrate: 9600
 });
 
-const parser = port.pipe(new Readline({delimeter: '\r\n'}));
+const parser = portSpeed.pipe(new Readline({delimeter: '\r\n'}));
 
 let seTmpData = '';
 let seSensingData = '';
