@@ -1,8 +1,8 @@
 const SerialPort = require('serialport');
-const file = '/dev/ttyACM0';
+const port = '/dev/ttyACM0';
 const Readline = SerialPort.parsers.Readline;
 
-const port = new SerialPort(file, {
+const port = new SerialPort(port, {
     baudrate: 9600
 });
 
@@ -27,3 +27,41 @@ parser.on('data', function (data) {
         }
     }
 });
+
+
+
+function getConnection(connName) {
+    let client = net.connect({port: 5001, host: '203.230.100.177'}, function () {
+        console.log(connName + ' Connected: ');
+        console.log('   local = %s:%s', this.localAddress, this.localPort);
+        console.log('   remote = %s:%s', this.remoteAddress, this.remotePort);
+        this.setEncoding('utf8');
+
+        this.on('data', function (data) {
+            console.log(connName + ' From Server: ' + data);
+        });
+        this.on('end', function () {
+            console.log(connName + ' Client disconnected');
+        });
+        this.on('error', function (err) {
+            console.log('Socket Error: ', JSON.stringify(err));
+        });
+        this.on('timeout', function () {
+            console.log('Socket Timed Out');
+        });
+        this.on('close', function () {
+            console.log('Socket Closed');
+        });
+    });
+    return client;
+}
+
+function writeData(socket, data) {
+    socket.write(JSON.stringify(data));
+}
+const node1 = getConnection('node1');
+
+setInterval(function () {
+    console.log(msg);
+    writeData(node1, msg);
+}, 2000);
