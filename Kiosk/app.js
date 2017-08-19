@@ -64,6 +64,9 @@ const node1 = getConnection('node1');
 
 setInterval(function () {
     console.log(msg);
-	let sendData = {code: 'kiosk', sensing: msg.sensing, smoking1: msg.smoking1, smoking2: msg.smoking2}; 
-    writeData(node1, sendData);
+
+	if (msg.sensing === 'true') { 	
+	let sendData = {code: 'kiosk', smoking: msg.smoking1 + msg.smoking2}; 
+    writeData(node1, sendData);	
+	}
 }, 2000);
