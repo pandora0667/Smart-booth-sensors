@@ -62,7 +62,7 @@ function getConnection(connName) {
         console.log(connName + ' Connected: ');
         console.log('   local = %s:%s', this.localAddress, this.localPort);
         console.log('   remote = %s:%s', this.remoteAddress, this.remotePort);
-        this.setEncoding('utf8');
+        this.setEncoding('utf-8');
 
         this.on('data', function (data) {
             console.log(connName + ' From Server: ' + data);
