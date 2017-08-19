@@ -8,7 +8,7 @@ const gps = new GPS;
 let latitude = 0;
 let longitude = 0;
 let seTmpData = '';
-let boothSensor = '';
+let sensor = '';
 
 const serialArduino = new SerialPort(port1, {
     buaudrate: 9600,
@@ -51,8 +51,8 @@ serialArduino.on('data', function (data) {
             let re = /\0/g;
             let str = seSensingData.replace(re, "");
             let msg = JSON.parse(str);
-            boothSensor = {code: 'booth', trash: msg.trash, smoke: msg.smoke, lat: latitude, lon: longitude};
-            JSON.stringify(boothSensor);
+			sensor = {code: 'booth', trash: msg.trash, smoke: msg.smoke, lat: latitude, lon: longitude};
+            JSON.stringify(sensor);
         }
     }
 });
@@ -89,7 +89,7 @@ function writeData(socket, data) {
 const node1 = getConnection('node1');
 
 setInterval(function () {
-    console.log(boothSensor);
-    writeData(node1, boothSensor);
+    console.log(sensor);
+    writeData(node1, sensor);
 }, 2000);
 
