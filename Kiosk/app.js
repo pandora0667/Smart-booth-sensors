@@ -37,6 +37,7 @@ function getConnection(connName) {
         console.log('   local = %s:%s', this.localAddress, this.localPort);
         console.log('   remote = %s:%s', this.remoteAddress, this.remotePort);
         this.setEncoding('utf8');
+		register(client); 
 
         this.on('data', function (data) {
             console.log(connName + ' From Server: ' + data);
@@ -57,9 +58,16 @@ function getConnection(connName) {
     return client;
 }
 
+function register(socket) {
+	 let serviceRegister = {code: 'register', service: 'kiosk'}; 
+	 writeData(socket, serviceRegister); 
+}
+
+
 function writeData(socket, data) {
     socket.write(JSON.stringify(data));
 }
+
 const node1 = getConnection('node1');
 
 setInterval(function () {
