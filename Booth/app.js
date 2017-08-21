@@ -63,6 +63,7 @@ function getConnection(connName) {
         console.log('   local = %s:%s', this.localAddress, this.localPort);
         console.log('   remote = %s:%s', this.remoteAddress, this.remotePort);
         this.setEncoding('utf-8');
+		register(client); 
 
         this.on('data', function (data) {
             console.log(connName + ' From Server: ' + data);
@@ -81,6 +82,11 @@ function getConnection(connName) {
         });
     });
     return client;
+}
+
+function register(socket) {
+	let serviceRegister = {code: 'register', service: 'booth'}; 
+	writeData(socket, serviceRegister); 
 }
 
 function writeData(socket, data) {
