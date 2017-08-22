@@ -97,5 +97,5 @@ const node1 = getConnection('node1');
 setInterval(function () {
     console.log(sensor);
     writeData(node1, sensor);
-}, 1000);
+}, 10000);
 
