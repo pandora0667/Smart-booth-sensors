@@ -74,7 +74,7 @@ setInterval(function () {
     console.log(msg);
 
 	if (msg.sensing === 'true') { 	
-	let sendData = {code: 'kiosk', smoking: msg.smoking1 + msg.smoking2}; 
+	let sendData = {code: 'kiosk', smoke: msg.smoking1 + msg.smoking2}; 
     writeData(node1, sendData);	
 	}
-}, 2000);
+}, 1000);
