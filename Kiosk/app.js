@@ -64,7 +64,7 @@ function register(socket) {
 }
 
 
-function writeData(socket, data) {
+function sendData(socket, data) {
     socket.write(JSON.stringify(data));
 }
 
