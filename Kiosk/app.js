@@ -29,8 +29,6 @@ parser.on('data', function (data) {
     }
 });
 
-
-
 function getConnection(connName) {
     let client = net.connect({port: 5001, host: '203.230.100.177'}, function () {
         console.log(connName + ' Connected: ');
@@ -60,7 +58,7 @@ function getConnection(connName) {
 
 function register(socket) {
 	 let serviceRegister = {code: 'register', service: 'kiosk'}; 
-	 writeData(socket, serviceRegister); 
+	 sendData(socket, serviceRegister); 
 }
 
 
@@ -72,6 +70,6 @@ const node1 = getConnection('node1');
 
 setInterval(function () {
     console.log(msg);
-	let sendData = {code: 'kiosk', smoke: msg.smoking1 + msg.smoking2}; 
-	writeData(node1, sendData);	
+	let smokeData = {code: 'kiosk', smoke: msg.smoking1 + msg.smoking2}; 
+	sendData(node1, smokeData);	
 }, 2000);
