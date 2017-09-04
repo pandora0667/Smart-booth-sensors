@@ -1,8 +1,8 @@
 const SerialPort = require('serialport');
 const GPS = require('gps');
 const net = require('net');
-const port1 = '/dev/ttyACM0';
-const port2 = '/dev/ttyACM1';
+const port1 = '/dev/ttyACM1';
+const port2 = '/dev/ttyACM0';
 const gps = new GPS;
 
 let latitude = 0;
@@ -58,7 +58,7 @@ serialArduino.on('data', function (data) {
 });
 
 function getConnection(connName) {
-    let client = net.connect({port: 5001, host: '203.230.100.177'}, function () {
+    let client = net.connect({port: 5001, host: 'jusk2.asuscomm.com'}, function () {
         console.log(connName + ' Connected: ');
         console.log('   local = %s:%s', this.localAddress, this.localPort);
         console.log('   remote = %s:%s', this.remoteAddress, this.remotePort);
