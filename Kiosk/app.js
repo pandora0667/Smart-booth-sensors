@@ -1,30 +1,43 @@
 const SerialPort = require('serialport');
 const net = require('net');
 const port = '/dev/ttyACM0';
-const Readline = SerialPort.parsers.Readline;
-
+//const Readline = SerialPort.parsers.Readline;
+/*
 const portSpeed = new SerialPort(port, {
     baudrate: 9600
 });
 
 const parser = portSpeed.pipe(new Readline({delimeter: '\r\n'}));
+*/
+
+const parser = new SerialPort(port, {
+		buaudrate: 9600, 
+		parser: SerialPort.parsers.readline('\r\n')
+});
 
 let seTmpData = '';
 let seSensingData = '';
 let msg = '';
+let smokeData = ''; 
 parser.on('data', function (data) {
 
-    //TODO Arduino json format
-    const mbRex = new Buffer(data);
-    const string = mbRex.toString('ascii').trim();
-    if (string.indexOf('{') > -1 || seTmpData.length > 0) {
-        seTmpData = seTmpData + string;
-        const indexFirst = seTmpData.indexOf('{');
-        const indexLast = seTmpData.indexOf('}');
-        if (indexFirst !== -1 && indexLast !== -1) {
-            seSensingData = seTmpData.substr(indexFirst, indexLast + 1);
-            seTmpData = "";
-            msg = JSON.parse(seSensingData);
+		//TODO Arduino json format
+		const mbRex = new Buffer(data);
+		const string = mbRex.toString('ascii').trim();
+		if (string.indexOf('{') > -1 || seTmpData.length > 0) {
+			seTmpData = seTmpData + string;
+			const indexFirst = seTmpData.indexOf('{');
+			const indexLast = seTmpData.indexOf('}');
+			
+			if (indexFirst !== -1 && indexLast !== -1) {
+				let seSensingData = seTmpData.substr(indexFirst, indexLast + 1);
+				seTmpData = '';
+
+				let re = /\0/g; 
+				let str = seSensingData.replace(re, ""); 
+				msg = JSON.parse(str); 
+				smokeData = {code: 'kiosk', smoke: msg.smoking1 + msg.smoking2};
+				JSON.stringify(smokeData); 
         }
     }
 });
@@ -69,7 +82,6 @@ function sendData(socket, data) {
 const node1 = getConnection('node1');
 
 setInterval(function () {
-    console.log(msg);
-	let smokeData = {code: 'kiosk', smoke: msg.smoking1 + msg.smoking2}; 
+    console.log(smokeData);
 	sendData(node1, smokeData);	
-}, 2000);
+}, 1000);
