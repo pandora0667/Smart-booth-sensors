@@ -1,8 +1,8 @@
 const SerialPort = require('serialport');
 const GPS = require('gps');
 const net = require('net');
-const port1 = '/dev/ttyACM1';
-const port2 = '/dev/ttyACM0';
+const port1 = '/dev/ttyACM0';
+const port2 = '/dev/ttyACM1';
 const gps = new GPS;
 
 let latitude = 0;
@@ -97,5 +97,5 @@ const node1 = getConnection('node1');
 setInterval(function () {
     console.log(sensor);
     writeData(node1, sensor);
-}, 10000);
+}, 2000);
 
