@@ -36,7 +36,7 @@ serialArduino.on('data', function (data) {
 					tcp.writeData(smokeData);
 				}
 			} catch(exception) {
-				console.log('정상적으로 paring 돼지 않았습니다.'); 
+				console.log('paring 오류가 발견되었습니다.'); 
 			}
         }
     }
