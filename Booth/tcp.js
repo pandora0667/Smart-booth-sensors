@@ -11,10 +11,10 @@ exports.getConnection = () => {
         register();
 
         this.on('data', function (data) {
-            console.log(connName + ' From Server: ' + data);
+            console.log(' From Server: ' + data);
         });
         this.on('end', function () {
-            console.log(connName + ' Client disconnected');
+            console.log(' Client disconnected');
         });
         this.on('error', function (err) {
             console.log('Socket Error: ', JSON.stringify(err));
