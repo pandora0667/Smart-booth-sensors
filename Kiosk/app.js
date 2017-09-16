@@ -1,27 +1,18 @@
 const SerialPort = require('serialport');
 const net = require('net');
 const port = '/dev/ttyACM0';
-//const Readline = SerialPort.parsers.Readline;
-/*
-const portSpeed = new SerialPort(port, {
-    baudrate: 9600
-});
 
-const parser = portSpeed.pipe(new Readline({delimeter: '\r\n'}));
-*/
-
-const parser = new SerialPort(port, {
+const serialArduino = new SerialPort(port, {
 		buaudrate: 9600, 
 		parser: SerialPort.parsers.readline('\r\n')
 });
 
 let seTmpData = '';
 let seSensingData = '';
-let msg = '';
 let smokeData = ''; 
-parser.on('data', function (data) {
 
-		//TODO Arduino json format
+serialArduino.on('data', function (data) {
+
 		const mbRex = new Buffer(data);
 		const string = mbRex.toString('ascii').trim();
 		if (string.indexOf('{') > -1 || seTmpData.length > 0) {
@@ -32,12 +23,16 @@ parser.on('data', function (data) {
 			if (indexFirst !== -1 && indexLast !== -1) {
 				let seSensingData = seTmpData.substr(indexFirst, indexLast + 1);
 				seTmpData = '';
-
 				let re = /\0/g; 
 				let str = seSensingData.replace(re, ""); 
-				msg = JSON.parse(str); 
-				smokeData = {code: 'kiosk', smoke: msg.smoking1 + msg.smoking2};
-				JSON.stringify(smokeData); 
+				let msg = JSON.parse(str); 
+				
+				if (msg.smoking1 != undefined && msg.smoking2 != undefined) {
+					smokeData = {code: 'kiosk', smoke: msg.smoking1 + msg.smoking2};
+
+					console.log(smokeData); 
+					JSON.stringify(smokeData); 
+				}
         }
     }
 });
@@ -82,7 +77,5 @@ function sendData(socket, data) {
 const node1 = getConnection('node1');
 
 setInterval(function () {
-    console.log(msg);
-	console.log('		' + smokeData); 
 	sendData(node1, smokeData);	
 }, 1000);
