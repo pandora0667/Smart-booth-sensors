@@ -37,7 +37,6 @@ gps.on('data', function (data) {
 
 serialArduino.on('data', function (data) {
 
-    //TODO Arduino JSON format
     const mbRex = new Buffer(data);
     const string = mbRex.toString('ascii').trim();
     if (string.indexOf('{') > -1 || seTmpData.length > 0) {
