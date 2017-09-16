@@ -82,6 +82,7 @@ function sendData(socket, data) {
 const node1 = getConnection('node1');
 
 setInterval(function () {
-    console.log(smokeData);
+    console.log(msg);
+	console.log('		' + smokeData); 
 	sendData(node1, smokeData);	
 }, 1000);
