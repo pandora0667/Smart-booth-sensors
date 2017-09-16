@@ -53,9 +53,14 @@ serialArduino.on('data', function (data) {
 
             let re = /\0/g;
             let str = seSensingData.replace(re, "");
-            let msg = JSON.parse(str);
-            let sensor = {code: 'booth', trash: msg.trash, smoke: msg.smoke, lat: latitude, lon: longitude};
-            tcp.writeData(sensor);
+
+            try {
+                let msg = JSON.parse(str);
+                let sensor = {code: 'booth', trash: msg.trash, smoke: msg.smoke, lat: latitude, lon: longitude};
+                tcp.writeData(sensor);
+            } catch (exception) {
+                console.log('paring 오류가 발견되었습니다.');
+            }
         }
     }
 });

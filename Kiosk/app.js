@@ -28,16 +28,17 @@ serialArduino.on('data', function (data) {
 
             let re = /\0/g;
             let str = seSensingData.replace(re, "");
-			try { 
 
-				let msg = JSON.parse(str);
-				if (msg.smoking1 !== undefined && msg.smoking2 !== undefined) {
-					let smokeData = {code: 'kiosk', smoke: msg.smoking1 + msg.smoking2};
-					tcp.writeData(smokeData);
-				}
-			} catch(exception) {
-				console.log('paring 오류가 발견되었습니다.'); 
-			}
+            try {
+
+                let msg = JSON.parse(str);
+                if (msg.smoking1 !== undefined && msg.smoking2 !== undefined) {
+                    let smokeData = {code: 'kiosk', smoke: msg.smoking1 + msg.smoking2};
+                    tcp.writeData(smokeData);
+                }
+            } catch (exception) {
+                console.log('paring 오류가 발견되었습니다.');
+            }
         }
     }
 });
