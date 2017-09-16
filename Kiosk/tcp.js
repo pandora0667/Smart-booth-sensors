@@ -29,7 +29,7 @@ exports.getConnection = () => {
 };
 
 exports.writeData = (data) => {
-    console.log(data);
+    console.log("TCP", data);
     if (server !== undefined || server !== null)
         server.write(JSON.stringify(data));
 };

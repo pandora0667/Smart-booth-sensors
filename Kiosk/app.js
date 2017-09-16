@@ -6,7 +6,7 @@ const tcp = require('./tcp');
 tcp.getConnection();
 
 const serialArduino = new SerialPort(port, {
-    buaudrate: 9600,
+    baudrate: 9600,
     parser: SerialPort.parsers.readline('\r\n')
 });
 
@@ -28,12 +28,16 @@ serialArduino.on('data', function (data) {
 
             let re = /\0/g;
             let str = seSensingData.replace(re, "");
-            let msg = JSON.parse(str);
+			try { 
 
-            if (msg.smoking1 !== undefined && msg.smoking2 !== undefined) {
-                let smokeData = {code: 'kiosk', smoke: msg.smoking1 + msg.smoking2};
-                tcp.writeData(smokeData);
-            }
+				let msg = JSON.parse(str);
+				if (msg.smoking1 !== undefined && msg.smoking2 !== undefined) {
+					let smokeData = {code: 'kiosk', smoke: msg.smoking1 + msg.smoking2};
+					tcp.writeData(smokeData);
+				}
+			} catch(exception) {
+				console.log('정상적으로 paring 돼지 않았습니다.'); 
+			}
         }
     }
 });

@@ -4,7 +4,7 @@ const int gasPin = A2;
 const int gasPin2 = A1;
 const int infraredSensorPin = 10;
 int count = 0;
-StaticJsonBuffer<200> jsonBuffer;
+StaticJsonBuffer<300> jsonBuffer;
 JsonObject& root = jsonBuffer.createObject();
 
 void setup() {
@@ -27,10 +27,10 @@ void loop() {
    Serial.println();
    if( smoking > 100 || smoking2 > 100) {
      count++;
-     Serial.println("Smoking");
+//     Serial.println("Smoking");
      
      if( count == 10 ) {
-       Serial.println("Real Smoking");
+//       Serial.println("Real Smoking");
      }
    } else {
 //     Serial.println("No Smoking");
