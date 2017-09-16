@@ -35,5 +35,5 @@ void loop() {
   root.printTo(Serial);
   Serial.println();
 
-  delay(1000);
+  delay(2000);
 }
