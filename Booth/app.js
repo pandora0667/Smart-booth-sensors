@@ -11,7 +11,6 @@ tcp.getConnection();
 let latitude = 0;
 let longitude = 0;
 let seTmpData = '';
-let sensor = '';
 
 const serialArduino = new SerialPort(port1, {
     buaudrate: 9600,
@@ -55,7 +54,7 @@ serialArduino.on('data', function (data) {
             let re = /\0/g;
             let str = seSensingData.replace(re, "");
             let msg = JSON.parse(str);
-            sensor = {code: 'booth', trash: msg.trash, smoke: msg.smoke, lat: latitude, lon: longitude};
+            let sensor = {code: 'booth', trash: msg.trash, smoke: msg.smoke, lat: latitude, lon: longitude};
             tcp.writeData(sensor);
         }
     }
