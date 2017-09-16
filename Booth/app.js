@@ -56,7 +56,6 @@ serialArduino.on('data', function (data) {
             let str = seSensingData.replace(re, "");
             let msg = JSON.parse(str);
             sensor = {code: 'booth', trash: msg.trash, smoke: msg.smoke, lat: latitude, lon: longitude};
-            JSON.stringify(sensor);
             tcp.writeData(sensor);
         }
     }

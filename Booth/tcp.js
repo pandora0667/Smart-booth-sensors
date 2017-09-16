@@ -30,7 +30,7 @@ exports.getConnection = () => {
 
 exports.writeData = (data) => {
     if (server !== undefined || server !== null)
-        server.write(data);
+        server.write(JSON.stringify(data));
 };
 
 function register() {
